@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+.Active-Link::after{
+  content: '';
+  position: absolute;
+  bottom: -21px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  border-radius: 50px;
+  background-color: white;
+}
+.Progress-Bar{
+  position: absolute;
+  background-color: white;
+  width: 6px;
+  height: 4px;
+  bottom: -4px;
+  border-radius: 0px 50px 50px 0px;
+  animation: ProgressAnnimation linear forwards;
+  animation-timeline: scroll();
+}
+@keyframes ProgressAnnimation{
+  0%{
+    width: 6px;
+    background-color: white;
+  }100%{
+    width: 100%;
+    background-color: #006fff;
+  }
+}
