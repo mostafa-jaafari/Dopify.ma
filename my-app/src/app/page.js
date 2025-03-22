@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { ArrowRight, Banknote, Star, TrendingUp, UsersRound, Video } from "lucide-react";
 import Image from "next/image";
-import UICollectionCard from "./components/UICollectionCard";
+import UICollectionCard from "../components/UICollectionCard";
 import { Process_Cards } from "@/Links/ProcessCards";
 import { Collaborators } from "@/Links/Collaborators";
+import Header, { HeaderUnderHeader } from "@/components/Header";
 // import { fetchProducts } from "./api/products";
 
 
@@ -11,7 +12,9 @@ export default async function Home() {
 
   // const ProductsData = await fetchProducts();
   return (
-    <main className="min-h-[200vh]">
+    <main className="min-h-[100vh] w-full">
+      <Header />
+      <HeaderUnderHeader />
       <section className="lg:px-20 py-20 w-full flex justify-between bg-neutral-100">
         <div className="space-y-8">
           <h1 className="text-6xl font-bold">

@@ -1,6 +1,6 @@
 import { Montserrat } from "next/font/google";
 import "./globals.css";
-import Header, { HeaderUnderHeader } from "./components/Header";
+import Header, { HeaderUnderHeader } from "../components/Header";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat-sans",
@@ -19,8 +19,6 @@ export default function RootLayout({ children }) {
       <body
         className={`${montserrat.variable} antialiased`}
       >
-        <Header />
-        <HeaderUnderHeader />
         {children}
       </body>
     </html>
