@@ -13,7 +13,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #f1f1f1;
+    --background: #e5e5e5;
     --foreground: #202020;
     --font-montserrat: var(--font-montserrat-sans);
   }
@@ -27,14 +27,14 @@ body {
 .Active-Link::after{
   content: '';
   position: absolute;
-  bottom: -14px;
+  bottom: -17px;
   left: 0;
   width: 100%;
   height: 3px;
   border-radius: 50px;
   background-color: #2563EB;
 }
-.Progress-Bar{
+/* .Progress-Bar{
   position: absolute;
   left: 0;
   background: linear-gradient(to right , #006fff, #202020);
@@ -44,21 +44,25 @@ body {
   border-radius: 0px 50px 50px 0px;
   animation: ProgressAnnimation linear forwards;
   animation-timeline: scroll();
-}
-.Scroll-Animation{
-  animation: ScrollAnimation linear forwards;
+} */
+.Scroll-Animation {
+  animation: ScrollAnimation 2s linear forwards;
   animation-timeline: scroll();
 }
-@keyframes ScrollAnimation{
-  0%{
+
+@keyframes ScrollAnimation {
+  0% {
     transform: translateX(0);
-  }3%{
+  }
+  1%{
     transform: translateX(30%);
-  }100%{
+  }
+  100% {
     transform: translateX(30%);
   }
 }
-@keyframes ProgressAnnimation{
+
+/* @keyframes ProgressAnnimation{
   0%{
     width: 6px;
     background-color: white;
@@ -66,4 +70,4 @@ body {
     width: 100%;
     background-color: #006fff;
   }
-}
+} */

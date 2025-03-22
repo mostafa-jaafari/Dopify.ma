@@ -12,7 +12,7 @@ export default async function Home() {
   // const ProductsData = await fetchProducts();
   return (
     <main className="min-h-[200vh]">
-      <section className="lg:px-20 py-20 w-full flex justify-between bg-neutral-200">
+      <section className="lg:px-20 py-20 w-full flex justify-between bg-neutral-100">
         <div className="space-y-8">
           <h1 className="text-6xl font-bold">
             Launch your eCommerce <span className="text-blue-600">brand </span>
@@ -29,7 +29,7 @@ export default async function Home() {
             <Link className="py-3 px-4 rounded bg-neutral-600 flex items-center gap-1" href='/'>See Our Process <Video size={20} /></Link>
           </div>
           <div className="relative border-t border-blue-600 border-dashed">
-              <p className="absolute -top-3 bg-neutral-200 text-[#006fff] font-semibold pr-2">Effortless Growth</p>
+              <p className="absolute -top-3 bg-neutral-100 text-[#006fff] font-semibold pr-2">Effortless Growth</p>
               <div className="pt-8 w-full grid grid-cols-2 gap-y-2">
                 {/* --------- Zero inventory costs --------- */}
                 <span className="flex items-center gap-2">
@@ -105,7 +105,7 @@ export default async function Home() {
           })}
         </section>
       </section>
-        <section className="lg:px-20 bg-neutral-200 py-20">
+        <section className="lg:px-20 bg-neutral-100 py-20">
           <div className="space-y-8 flex flex-col items-center">
             <h1 className="text-4xl font-bold">
               Who Can Work With Us?
