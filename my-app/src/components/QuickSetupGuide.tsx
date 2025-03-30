@@ -7,7 +7,52 @@ import React from 'react'
 
 export default function QuickSetupGuide() {
   return (
-    <main className='w-full p-4 rounded-xl border border-[#009eb3]'>
+    <main className='rounded-lg bg-gradient-to-r from-neutral-900/80 to-[#000000] shadow-lg
+    border border-neutral-900'>
+            <h1 className='p-4 text-xl font-semibold'>
+                Quick Setup Guide
+            </h1>
+        <ul className=''>
+            {QuickSetupGuide_Links.map((guide, index) => {
+                return (
+                    <Link 
+                    key={index}
+                    className={`w-full flex items-center justify-between py-4 px-6 border-t border-neutral-700 hover:bg-neutral-900/50
+                    `}
+                    href='/'>
+                        <div className='flex items-center gap-4'
+                            >
+                                {guide.finishprocess ? 
+                                (
+                                    <CircleCheckBig className={`w-11 h-11 p-1 rounded-full
+                                        ${guide.finishprocess ? "bg-green-400/30 text-green-400" : "bg-gray-400/30 text-gray-400"}`}
+                                    />
+                                ) 
+                                :
+                                (
+                                    <Timer className={`w-11 h-11 p-1 rounded-full
+                                        ${guide.finishprocess ? "bg-green-400/30 text-green-400" : "bg-gray-400/30 text-gray-400"}`}
+                                    />
+                                )}
+                            <div>
+                                <h1 className={guide.finishprocess && "text-green-400 line-through"}>
+                                    {guide.title}
+                                </h1>
+                                <p className='para-color text-sm'>
+                                    {guide.description}
+                                </p>
+                            </div>
+                        </div>
+                        <ChevronRight className={guide.finishprocess ? "text-green-400" : ""}/>
+                    </Link>
+                )
+            })}
+        </ul>
+    </main>
+  )
+}
+
+{/* <main className='w-full p-4 rounded-xl border border-[#009eb3]'>
         <h1 className='primary-color font-semibold text-xl'>
             Quick Setup Guide
         </h1>
@@ -47,6 +92,4 @@ export default function QuickSetupGuide() {
                 )
             })}
         </section>
-    </main>
-  )
-}
+    </main> */}

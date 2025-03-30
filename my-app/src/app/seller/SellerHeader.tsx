@@ -30,7 +30,7 @@ const SocialMedia_Links = [
 export default async function SellerHeader() {
     const session = await auth();
   return (
-    <section className='px-4 w-full border-b border-neutral-700 py-2 flex justify-between'>
+    <section className='px-4 w-full sticky top-0 bg-[#000000] z-50 border-b border-neutral-700 py-2 flex justify-between'>
         <div className='flex items-center gap-4'>
             <MenuBtn />
             <span className='flex gap-1 text-xl text-neutral-300'>
