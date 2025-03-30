@@ -1,73 +1,95 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #000000;
+  --foreground: #ffffff;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-montserrat: var(--font-montserrat-sans);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #e5e5e5;
-    --foreground: #202020;
-    --font-montserrat: var(--font-montserrat-sans);
+    --background: #000000;
+    --foreground: #ffffff;
   }
 }
-
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.primary-button{
+  background-color: #009eb3;
+  border: 1px solid #78efff;
+  padding: 6px 20px;
+  text-wrap: nowrap;
+  font-size: 20px;
+  text-transform: capitalize;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.primary-button:hover{
+  background-color: #007888;
+}
+.primary-button:disabled{
+  background-color: #003b42;
+  cursor: not-allowed;
+  animation: Disabled-Btn 4s ease-in-out infinite;
+}
+.primary-color{
+  color: #009eb3;
+}
+.secondary-color{
+  color: #FF9900;
+}
+.para-color{
+  color: #7a7a7a;
+}
+.para-color-mono{
+  color: #7a7a7a;
+  font-family: monospace;
+}
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-montserrat);
+  font-family: var(--font-sans);
 }
 .Active-Link::after{
   content: '';
   position: absolute;
-  bottom: -17px;
+  bottom: -6;
   left: 0;
-  width: 100%;
+  background-color: #009eb3;
   height: 3px;
   border-radius: 50px;
-  background-color: #2563EB;
-}
-/* .Progress-Bar{
-  position: absolute;
-  left: 0;
-  background: linear-gradient(to right , #006fff, #202020);
-  width: 6px;
-  height: 3px;
-  bottom: -2px;
-  border-radius: 0px 50px 50px 0px;
-  animation: ProgressAnnimation linear forwards;
-  animation-timeline: scroll();
-} */
-.Scroll-Animation {
-  animation: ScrollAnimation 2s linear forwards;
-  animation-timeline: scroll();
+  animation: AfterAnimation 0.3s ease-in-out forwards;
 }
 
-@keyframes ScrollAnimation {
-  0% {
-    transform: translateX(0);
-  }
-  1%{
-    transform: translateX(30%);
-  }
-  100% {
-    transform: translateX(30%);
-  }
-}
-
-/* @keyframes ProgressAnnimation{
-  0%{
-    width: 6px;
-    background-color: white;
-  }100%{
+@keyframes AfterAnimation{
+  from{
+    width: 0px;
+  }to{
     width: 100%;
-    background-color: #006fff;
   }
-} */
+}
+
+.Float-Animation {
+  animation: Float 6s ease-in-out infinite;
+  /* animation-delay: 0.5s; أو يمكنك إضافتها مباشرة هنا بدلًا من الـ inline style */
+}
+
+@keyframes Float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
