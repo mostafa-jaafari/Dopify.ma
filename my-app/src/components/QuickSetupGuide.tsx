@@ -7,18 +7,18 @@ import React from 'react'
 
 export default function QuickSetupGuide() {
   return (
-    <main className='rounded-lg bg-gradient-to-r from-neutral-900/80 to-[#000000] shadow-lg
-    border border-neutral-900'>
+    <main className='overflow-hidden rounded-lg bg-gradient-to-r from-neutral-900/80 to-[#000000] shadow-lg
+    border border-neutral-800 shadow'>
             <h1 className='p-4 text-xl font-semibold'>
                 Quick Setup Guide
             </h1>
-        <ul className=''>
+        <ul>
             {QuickSetupGuide_Links.map((guide, index) => {
                 return (
                     <Link 
                     key={index}
-                    className={`w-full flex items-center justify-between py-4 px-6 border-t border-neutral-700 hover:bg-neutral-900/50
-                    `}
+                    className={`w-full flex items-center justify-between py-4 px-6 border-t 
+                        border-neutral-700 hover:bg-[#000000]`}
                     href='/'>
                         <div className='flex items-center gap-4'
                             >
