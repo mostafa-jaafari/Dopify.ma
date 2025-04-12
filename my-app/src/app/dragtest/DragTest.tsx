@@ -1,63 +1,70 @@
-'use client';
-import { useRef, useState } from 'react';
+'use client'; // تشير إلى أن هذا المكون سيتم تنفيذه في بيئة العميل (المتصفح).
+import { useState } from 'react'; // استيراد هوك useState من React لإدارة الحالة في المكون.
 
-export default function DragTest() {
-  const boxRef = useRef(null);
-  const itemRef = useRef(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+export default function ResizableBox() {
+  // تعريف الحالة لتخزين أبعاد المربع القابل للتغيير (العرض والارتفاع).
+  const [size, setSize] = useState({ width: 150, height: 250 });
+  
+  // تعريف الحالة لمتابعة ما إذا كان المربع يتم سحبه أم لا.
   const [dragging, setDragging] = useState(false);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  
+  // تعريف الحالة لمتابعة موقع الماوس عند بداية السحب.
+  const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
 
-  const handleMouseDown = (e) => {
-    setDragging(true);
-
-    const item = itemRef.current;
-    const rect = item.getBoundingClientRect();
-    setOffset({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
+  // دالة للتعامل مع الحدث عند الضغط على زر الفأرة لتغيير حجم المربع.
+  const handleMouseDownResize = (e) => {
+    setDragging(true); // تعيين الحالة إلى true للإشارة إلى أن المربع يتم سحبه الآن.
+    // تخزين إحداثيات الماوس عند الضغط على الزر لتحديد النقطة التي يبدأ منها السحب.
+    setStartPosition({
+      x: e.clientX,
+      y: e.clientY,
     });
   };
 
+  // دالة للتعامل مع حركة الفأرة أثناء السحب وتغيير حجم المربع.
   const handleMouseMove = (e) => {
-    if (!dragging) return;
+    if (!dragging) return; // إذا لم يكن المربع في وضع السحب، لا نفعل شيء.
 
-    const box = boxRef.current.getBoundingClientRect();
-    const item = itemRef.current.getBoundingClientRect();
+    // حساب العرض والارتفاع الجديدين بناءً على حركة الماوس.
+    const newWidth = Math.max(50, size.width + e.clientX - startPosition.x); // تأكد من أن العرض لا يقل عن 50px.
+    const newHeight = Math.max(50, size.height + e.clientY - startPosition.y); // تأكد من أن الارتفاع لا يقل عن 50px.
 
-    let newX = e.clientX - box.left - offset.x;
-    let newY = e.clientY - box.top - offset.y;
+    // تحديث حالة الأبعاد الجديدة للمربع.
+    setSize({
+      width: newWidth,
+      height: newHeight,
+    });
 
-    // Limit movement inside the box
-    newX = Math.max(0, Math.min(newX, box.width - item.width));
-    newY = Math.max(0, Math.min(newY, box.height - item.height));
-
-    setPosition({ x: newX, y: newY });
+    // تحديث نقطة البداية للموقع الجديد للماوس.
+    setStartPosition({
+      x: e.clientX,
+      y: e.clientY,
+    });
   };
 
+  // دالة للتعامل مع الحدث عند إفلات زر الفأرة (إنهاء السحب).
   const handleMouseUp = () => {
-    setDragging(false);
+    setDragging(false); // تعيين الحالة إلى false لإنهاء السحب.
   };
 
   return (
     <div
-      ref={boxRef}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
-      className="relative w-[500px] h-[400px] border-4 border-dashed border-violet-500 mx-auto mt-10"
+      className="relative w-[500px] h-[400px] border-4 border-dashed border-gray-500 mx-auto mt-10" // تعيين حجم وحواف الصندوق الكبير.
+      onMouseMove={handleMouseMove} // ربط حدث حركة الفأرة بالدالة التي تعالج تغيير الحجم.
+      onMouseUp={handleMouseUp} // ربط حدث إفلات زر الفأرة بالدالة التي تنهي السحب.
+      onMouseLeave={handleMouseUp} // في حال ترك الفأرة المربع، يتم إنهاء السحب.
     >
       <div
-        ref={itemRef}
-        onMouseDown={handleMouseDown}
-        className="absolute w-[100px] h-[100px] bg-violet-600 text-white flex items-center justify-center rounded-lg cursor-grab select-none"
+        className="absolute bg-blue-500" // تعيين اللون الخلفي للمربع الصغير.
         style={{
-          left: position.x,
-          top: position.y,
-          transition: dragging ? 'none' : 'transform 0.2s',
+          width: size.width, // تعيين العرض بناءً على حالة الأبعاد.
+          height: size.height, // تعيين الارتفاع بناءً على حالة الأبعاد.
         }}
       >
-        Drag Me
+        <div
+          className="absolute bottom-0 right-0 w-4 h-4 bg-red-500 cursor-se-resize" // تعيين حجم ولون مربع التحكم (الزاوية السفلى اليمنى) الذي يستخدم لتغيير الحجم.
+          onMouseDown={handleMouseDownResize} // ربط حدث الضغط على الزر للدالة التي تبدأ السحب.
+        />
       </div>
     </div>
   );

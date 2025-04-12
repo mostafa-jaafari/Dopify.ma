@@ -4,11 +4,12 @@ import { MLData } from "@/components/MediaLibraryProvider";
 import CalculateImageSize from "@/Functions/CalculateImageSize";
 import { db } from "Firebase";
 import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { FileX, ImageUp, Info, Paintbrush, X } from "lucide-react";
+import { FileX, ImageUp, Infinity, Info, Paintbrush, Timer, X } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
+import LookingManImage from '../../../../../public/A man looking for something.png';
 
 
 const UploadBTN = ({HandleChooseFile}) => {
@@ -102,14 +103,20 @@ export default function MediaLibraryPage(){
                     </span>
                 </div>
             </section>
+            {MediaLibraryData.length > 0 && (
+                <span className="flex gap-1 -mb-0">
+                    {MediaLibraryData.length} /<Infinity />
+                </span>
+            )}
             {IsLoadingData ? (
-                <div className="w-full min-h-50 flex justify-center items-center">
+                <div className="w-full min-h-50 border border-neutral-300 
+                shadow-lg rounded-lg bg-white flex justify-center items-center">
                     <Loading />
                 </div>
             ) :
             MediaLibraryData.length > 0 ? 
             (
-                <section className="w-full flex gap-4 bg-white border border-neutral-200 rounded-lg p-4">
+                <section className="w-full flex gap-4 bg-white border border-neutral-300 shadow-lg rounded-lg p-4">
                     {IsLoadingData ? 'Loading...' : 
                     (MediaLibraryData.map((image, index) => {
                         return (
@@ -124,16 +131,15 @@ export default function MediaLibraryPage(){
                     }))}
                 </section>
             ) : (
-            <section className="w-full bg-white border border-neutral-200 rounded-lg p-4 space-y-6 py-12">
+            <section className="w-full bg-white border border-neutral-300 shadow-lg rounded-lg space-y-6 py-6">
                 <div className="w-full h-full flex flex-col items-center justify-center space-y-3">
-                    <FileX size={60} className="text-neutral-400"/>
-                    <h1 className="text-2xl font-bold text-neutral-600">
-                        No Media, Yet
+                    <Image src={LookingManImage} alt="" width={200}/>
+                    <h1 className="text-2xl font-bold text-neutral-600 flex items-center gap-1">
+                        Your Library Is Waiting<Timer />
                     </h1>
                     <p className="para-color">
-                        No files yet. You can either upload an already ready design 
-                        or 
-                        create one using Photopea!
+                    Ready to turn your ideas into visuals?
+                    Upload your media or create your first design now.
                     </p>
                 </div>
                 <div className="w-full flex justify-center gap-2">

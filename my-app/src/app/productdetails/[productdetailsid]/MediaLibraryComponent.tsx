@@ -26,7 +26,7 @@ export default function MediaLibraryComponent(){
             })
         }
     return (
-        <main className="shadow border border-neutral-200 rounded-lg p-4">
+        <main className="shadow-lg border border-neutral-300 rounded-lg p-4 max-h-[70vh] overflow-y-scroll no-scrollbar">
             {IsLoadingData ? 
             (
                 <div className="w-full flex justify-center">

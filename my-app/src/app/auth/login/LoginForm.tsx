@@ -52,7 +52,7 @@ export default function LoginForm() {
         <form 
             onSubmit={HandleSubmitLogin}
             className="max-w-[500px] w-full space-y-4 rounded-lg 
-            px-6 pt-14 pb-7 border border-neutral-200 shadow"
+            px-6 pt-14 pb-7 border border-neutral-300 shadow-lg bg-white"
         >
             {/* Email and Password inputs */}
             <div className="relative flex flex-col ">

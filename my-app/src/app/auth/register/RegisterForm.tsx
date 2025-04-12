@@ -75,7 +75,7 @@ export default function RegisterForm() {
     <form  
         onSubmit={HandleSubmitRegister}
         className="max-w-[500px] w-full space-y-4 rounded-lg 
-        px-6 py-8 border border-neutral-200 shadow bg-white"        >
+        px-6 py-8 border border-neutral-300 shadow-lg bg-white"        >
         {/* --------- First Name & Last Name --------- */}
         <section className='flex gap-2'>
             {/* --------- First Name --------- */}

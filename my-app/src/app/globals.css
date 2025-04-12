@@ -95,3 +95,35 @@ body {
     transform: translateY(-10px);
   }
 }
+
+/* Container holding the text with cursor */
+.Animate-Text-Typing {
+  font-family: 'Courier New', Courier, monospace;  /* Monospace font for typing effect */
+  width: 0ch;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  padding-right: 20px;  /* Space for the cursor */
+  animation: TypingText 3s steps(27) 1s forwards, CursorBlink 1s step-end infinite; /* Typing effect and cursor blink */
+}
+
+/* Typing effect animation */
+@keyframes TypingText {
+  from {
+    width: 0; /* Start with no text visible */
+  }
+  to {
+    width: 27ch; /* End with full text visible */
+  }
+}
+
+/* Cursor blinking effect */
+@keyframes CursorBlink {
+  50% {
+    border-right: 2px solid gray; /* Blinking cursor at the end of text */
+  }
+  100% {
+    border-right: 2px solid transparent; /* Hide the cursor */
+  }
+}
+

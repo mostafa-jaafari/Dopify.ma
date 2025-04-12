@@ -168,9 +168,9 @@ export default function ProfilePage(){
                     </span>
                 </div>
             </section>
-            <section className="w-full border border-neutral-200 rounded-lg 
-                bg-white">
-                <div className="w-full border-b border-neutral-200 py-2 px-4">
+            <section className="w-full border border-neutral-300 rounded-lg 
+                bg-white overflow-hidden shadow-lg">
+                <div className="w-full border-b border-neutral-200 py-2 px-4 bg-blue-100">
                     <h1 className="text-xl font-semibold">
                         Profile Information
                     </h1>
@@ -315,8 +315,8 @@ export default function ProfilePage(){
                 </div>
             </section>
             {/* --------- Update Password ---------- */}
-            <section className="-full border border-neutral-200 rounded-lg bg-white">
-                <div className="w-full border-b border-neutral-200 py-2 px-4">
+            <section className="-full border overflow-hidden shadow-lg border-neutral-300 rounded-lg bg-white">
+                <div className="w-full bg-blue-100 border-b border-neutral-200 py-2 px-4">
                     <h1 className="text-xl font-semibold">
                         Update Password
                     </h1>
