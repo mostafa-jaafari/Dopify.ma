@@ -7,8 +7,8 @@ import React from 'react'
 
 export default function QuickSetupGuide() {
   return (
-    <main className='overflow-hidden rounded-lg bg-gradient-to-r from-neutral-900/80 to-[#000000] shadow-lg
-    border border-neutral-800 shadow'>
+    <main className='overflow-hidden rounded-lg bg-white 
+    shadow-lg border border-neutral-200 shadow'>
             <h1 className='p-4 text-xl font-semibold'>
                 Quick Setup Guide
             </h1>
@@ -18,8 +18,8 @@ export default function QuickSetupGuide() {
                     <Link 
                     key={index}
                     className={`w-full flex items-center justify-between py-4 px-6 border-t 
-                        border-neutral-700 hover:bg-[#000000]`}
-                    href='/'>
+                        border-neutral-300 hover:bg-neutral-100`}
+                    href={guide.href}>
                         <div className='flex items-center gap-4'
                             >
                                 {guide.finishprocess ? 
@@ -43,7 +43,7 @@ export default function QuickSetupGuide() {
                                 </p>
                             </div>
                         </div>
-                        <ChevronRight className={guide.finishprocess ? "text-green-400" : ""}/>
+                        <ChevronRight className={guide.finishprocess ? "text-green-400" : "text-neutral-400"}/>
                     </Link>
                 )
             })}

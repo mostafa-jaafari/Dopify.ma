@@ -4,6 +4,9 @@ import { SignInGoogle } from "@/Buttons/AuthButtons";
 import Link from "next/link";
 import React, { ChangeEvent, useState } from "react";
 import { AlertCircle, CheckCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "Firebase";
 
 
 export default function LoginForm() {
@@ -18,7 +21,7 @@ export default function LoginForm() {
         const { value, name } = e.target;
         setLoginInputs({ ...LoginInputs, [name]: value });
     }
-
+    const router = useRouter();
     const HandleSubmitLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         setIsLoading(true);
         e.preventDefault();
@@ -26,16 +29,17 @@ export default function LoginForm() {
         try {
             // Use NextAuth signIn method with credentials
             const result = await signIn("credentials", {
-                redirect: true,
+                redirect: false,
                 email: LoginInputs.email,
                 password: LoginInputs.password,
             });
-
+            await signInWithEmailAndPassword(auth, LoginInputs.email, LoginInputs.password);
             if (result?.error) {
                 setIsError('Incorrect email or password.');
-            } else {
-                setIsError('Login Successfully.');
+                return;
             }
+            setIsError('Login Successfully.');
+            router.push('/seller')
         } catch (error) {
             console.error("Error during login:", error);
             setIsError('Login failed.');
@@ -47,7 +51,8 @@ export default function LoginForm() {
     return (
         <form 
             onSubmit={HandleSubmitLogin}
-            className="max-w-[500px] w-full space-y-2 rounded-lg px-6 pt-14 pb-7 border border-neutral-700"
+            className="max-w-[500px] w-full space-y-4 rounded-lg 
+            px-6 pt-14 pb-7 border border-neutral-200 shadow"
         >
             {/* Email and Password inputs */}
             <div className="relative flex flex-col ">
@@ -57,12 +62,21 @@ export default function LoginForm() {
                     value={LoginInputs.email}
                     onChange={HandleChangeInputs}
                     id="Email" 
-                    className="peer outline-none focus:border-[#009eb3] border border-neutral-700 p-3 rounded-lg"
+                    className="peer outline-none focus:border-[#009eb3] 
+                    border border-neutral-300 p-3 rounded-lg"
                     required
                 />
                 <label 
                     htmlFor="Email"
-                    className="absolute transition-all bottom-10 left-3 text-neutral-400 bg-[#000000] px-1 peer-focus:bottom-10 peer-focus:text-sm peer-focus:text-[#009eb3] peer-placeholder-shown:bottom-3 peer-placeholder-shown:text-md"
+                    className="absolute transition-all bottom-10 left-3 
+                    text-neutral-400 
+                    bg-white 
+                    px-1 
+                    peer-focus:bottom-10 
+                    peer-focus:text-sm 
+                    peer-focus:text-[#009eb3] 
+                    peer-placeholder-shown:bottom-3 
+                    peer-placeholder-shown:text-md"
                 >
                     Email Address
                 </label>
@@ -75,12 +89,21 @@ export default function LoginForm() {
                     value={LoginInputs.password}
                     onChange={HandleChangeInputs}
                     id="Password" 
-                    className="peer outline-none focus:border-[#009eb3] border border-neutral-700 p-3 rounded-lg"
+                    className="peer outline-none focus:border-[#009eb3] 
+                    border border-neutral-300 p-3 rounded-lg"
                     required
                 />
                 <label 
                     htmlFor="Password"
-                    className="absolute transition-all bottom-10 left-3 text-neutral-400 bg-[#000000] px-1 peer-focus:bottom-10 peer-focus:text-sm peer-focus:text-[#009eb3] peer-placeholder-shown:bottom-3 peer-placeholder-shown:text-md"
+                    className="absolute transition-all bottom-10 left-3 
+                    text-neutral-400 
+                    bg-white 
+                    px-1 
+                    peer-focus:bottom-10 
+                    peer-focus:text-sm 
+                    peer-focus:text-[#009eb3] 
+                    peer-placeholder-shown:bottom-3 
+                    peer-placeholder-shown:text-md"
                 >
                     Password
                 </label>
@@ -88,11 +111,16 @@ export default function LoginForm() {
 
             {/* Error message */}
             {IsError && (
-                <span className={`w-full flex items-center justify-start py-2 px-3 border rounded-lg space-x-2 ${IsError === 'Login Successfully.' ? 'bg-[#00ff0033] text-green-500' : 'bg-[#ff000020] text-red-500'}`}>
+                <span className={`w-full flex items-center justify-start 
+                py-2 px-3 border rounded-lg space-x-2 
+                ${IsError === 'Login Successfully.' ? 
+                'bg-[#00ff0033] text-green-500 border-green-300'
+                :
+                'bg-[#ff000020] text-red-600 border-red-300'}`}>
                     {IsError === 'Login Successfully.' ? (
                         <CheckCircle className='text-green-500'/>
                     ) : (
-                        <AlertCircle className="w-5 h-5 text-red-500" />
+                        <AlertCircle className="w-5 h-5 text-red-600" />
                     )}
                     <p className="font-semibold">{IsError}</p>
                 </span>

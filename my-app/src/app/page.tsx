@@ -2,25 +2,23 @@ import Header from "@/components/Header";
 import ProcessCard from "@/components/ProcessCard";
 import SectionHeader from "@/components/SectionHeader";
 import StartButtonCTA from "@/components/StartButtonCTA";
-// import AccordionPage from "@/components/AccordionPage";
 import { Animated_Hero_Cards, PROCESS_CARDS, Product_Card_Details, Users_Images } from "@/GlobalLinks";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import Testimonials from "@/components/Testimonials";
-import { auth } from "@/auth";
 import AccordionPage from "@/components/AccordionPage";
 
 
 
 export default async function Home() {
-  const session = await auth();
+  
   return (
     <main className="w-full">
       {/* --------- Header --------- */}
       <Header />
       {/* --------- Hero --------- */}
-      <section className="lg:p-20 px-6 py-10 w-full min-h-[90vh] flex lg:flex-row flex-col items-start gap-2 bg-gradient-to-t from-[#000000] to-[#00bcd470]">
+      <section className="lg:p-20 px-6 py-10 w-full min-h-[90vh] flex lg:flex-row flex-col items-start gap-2">
         <div className="w-full space-y-8">
           <span className="flex w-max py-1 px-4 rounded-full items-center gap-2 bg-[#FF9900] text-white">
             <Star className="fill-[#ffffff]" size={20}/>
@@ -34,9 +32,7 @@ export default async function Home() {
             Design. Sell. We Print & Ship for You.
           </p>
           <div>
-            <StartButtonCTA 
-              PATH={session ? "/seller" : "/auth/register"} 
-              LABEL={session ? 'To Seller Dashboard' : 'Start Selling Now'} />
+            <StartButtonCTA />
           </div>
           <div className="flex items-center gap-2">
             <div className="flex items-center -space-x-4">
@@ -49,7 +45,7 @@ export default async function Home() {
               })}
             </div>
             <span className="flex gap-2">
-              <b>+2,000 </b>
+              <b className="primary-color">+2,000 </b>
               <p className="para-color">Sellers trust us</p>
             </span>
           </div>
@@ -76,7 +72,7 @@ export default async function Home() {
       {/* --------- Process Section --------- */}
       <section className="relative w-full lg:p-20 px-6 pb-20 space-y-20 flex flex-col items-center">
       {/* <!-- Circle with background color and opacity at the bottom --> */}
-        <div className="absolute -z-10 -bottom-10 left-1/3 w-1/2 h-20 bg-gradient-to-r from-[#009eb3] to-[#000000] shadow-lg shadow-[#009eb3] opacity-40 blur-2xl"></div>
+        {/* <div className="absolute -z-10 -bottom-10 left-1/4 w-1/2 h-20 bg-gradient-to-r from-violet-100 to-violet-600 shadow-lg shadow-violet-600 opacity-80 blur-2xl"></div> */}
           <SectionHeader 
             TITLE="Start Selling in 3 Simple Steps!" 
             SUBTITLE="Our streamlined process makes it easy to turn your creativity into a profitable business" />
@@ -92,7 +88,7 @@ export default async function Home() {
               )
             })}
           </div>
-          <StartButtonCTA PATH="/" LABEL="Create & Earn now" />
+          <StartButtonCTA />
       </section>
       {/* --------- According Section --------- */}
       <section className="w-full lg:p-20 pb-20 px-6 space-y-20 flex flex-col items-center">
@@ -105,9 +101,9 @@ export default async function Home() {
         <div className="w-full flex flex-wrap justify-center gap-4">
           {Product_Card_Details.map((product, index) => {
             return (
-              <div key={index} className="p-2 w-[350px] max-w-[450px] grow rounded-lg bg-neutral-900 shadow shadow-neutral-700 shadow border border-neutral-700">
+              <div key={index} className="p-2 w-[350px] max-w-[450px] grow rounded-lg bg-neutral-100 shadow-lg shadow border border-neutral-300">
                   <div className="relative lg:w-full h-[300px] rounded-lg overflow-hidden">
-                      <Image src={product.image} alt="" fill className='object-cover'/>
+                      <Image src={product.image} alt="" fill className='object-cover hover:scale-110 transition-all'/>
                   </div>
                   <div>
                       <span>
@@ -122,45 +118,43 @@ export default async function Home() {
                                       className="text-nowrap bg-[#FF990049] text-[#FF9900] px-2 cursor-pointer hover:underline font-semibold rounded w-max">
                                         #{categorie}
                                     </Link>
-                                    {product.categorie.length > 1 && '•'}
+                                    <span className="text-neutral-500">
+                                      {product.categorie.length > 1 && ' •'}
+                                    </span>
                                   </div>
                                 )
                               })}
                           </span>
                       </span>
-                      <Link 
-                          href='/'>
-                          <button className="primary-button w-full font-semibold mt-2">
-                              Custimize Now
-                          </button>
-                      </Link>
+                      <button className="text-center w-full primary-button mt-2
+                      font-semibold text-xl cursor-pointer">
+                        Custimize Now
+                      </button>
                   </div>
               </div>
             )
           })}
         </div>
-        <StartButtonCTA LABEL="Show All" PATH="/" />
+        <StartButtonCTA />
       </section>
       {/* --------- Testimonials Section --------- */}
-      <section className="lg:p-20 px-6 py-20 relative bg-neutral-900 flex flex-col items-center w-full overflow-hidden space-y-20">
+      <section className="lg:p-20 px-6 py-20 relative bg-violet-100 flex flex-col items-center w-full overflow-hidden space-y-20">
         <SectionHeader TITLE="Customer Testimonials"/>
         <Testimonials />
       </section>
       {/* --------- encourage sign-ups --------- */}
-      <section className="w-full mb-10 bg-neutral-900 border-y 
-        border-neutral-700 px-20 py-10 flex flex-col 
+      <section className="w-full bg-violet-100 border-b 
+        border-neutral-200 px-20 py-10 flex flex-col 
         items-center text-center space-y-8">
         <p className="para-color-mono text-xl">
           Start now and unlock endless possibilities.
         </p>
-        <h1 className="text-2xl font-bold capitalize">
+        <h1 className="text-2xl text-neutral-700 font-bold capitalize">
           Ready to Start Your Selling Journey?
         </h1>
-        <StartButtonCTA 
-          LABEL="Get Started Now" 
-          PATH="/"/>
+        <StartButtonCTA />
       </section>
-      <footer className="w-full border-t border-neutral-700 flex flex-col items-center py-4">
+      <footer className="w-full flex flex-col items-center py-4">
         &copy; 2025 All Rights Reserved By MerchHub
       </footer>
     </main>

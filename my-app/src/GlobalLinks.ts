@@ -18,7 +18,8 @@ import {
     Loader, 
     UserPlus, 
     MessageCircle, 
-    AlertCircle
+    AlertCircle,
+    Paintbrush
 } from "lucide-react";
 export const Navigation_Header_Links = [
     { label: "Home", path: "/" },
@@ -33,9 +34,10 @@ export const Navigation_Header_Links = [
 
 export const User_Links = [
     { label: "Dashboard", icon: LayoutDashboard , href: '/seller'},
-    { label: "Profile", icon: User , href: '/profil'},
+    { label: "Profile", icon: User , href: '/seller/profile'},
     { label: "Settings", icon: Settings , href: '/settings'},
     { label: "Policy & Privacy", icon: Lock , href: '/policy&privacy'},
+    { label: "Photopea Editor", icon: Paintbrush , href: '/photopeaeditor'},
 ];
 
 export const Animated_Hero_Cards = [
@@ -175,52 +177,50 @@ export const SideBar_Links = [
   {
     label: "dashboard",
     icon: LayoutDashboard,
-    href: "/seller",
   },
   {
-    label: "my template",
+    label: "my templates",
     icon: FileText,
-    href: "mytemplate",
   },
   {
     label: "products",
     icon: ShoppingCart,
-    href: "products",
   },
   {
-    label: "orders",
-    icon: Package,
-    href: "orders",
+    label: "photopea editor",
+    icon: Paintbrush,
   },
-  {
-    label: "withdrawals",
-    icon: DollarSign,
-    href: "withdrawals",
-  },
+//   {
+//     label: "orders",
+//     icon: Package,
+//   },
+//   {
+//     label: "withdrawals",
+//     icon: DollarSign,
+//   },
   {
     label: "media library",
     icon: Image,
-    href: "medialibrary",
   },
+//   {
+//     label: "transactions",
+//     icon: Receipt,
+//   },
+//   {
+//     label: "branding",
+//     icon: PaintBucket,
+//   },
+//   {
+//     label: "my returns",
+//     icon: RotateCw,
+//   },
+//   {
+//     label: "my stores",
+//     icon: Store,
+//   },
   {
-    label: "transactions",
-    icon: Receipt,
-    href: "transactions",
-  },
-  {
-    label: "branding",
-    icon: PaintBucket,
-    href: "branding",
-  },
-  {
-    label: "my returns",
-    icon: RotateCw,
-    href: "myreturns",
-  },
-  {
-    label: "my stores",
-    icon: Store,
-    href: "",
+    label: "profile",
+    icon: User,
   },
 ];
 
@@ -229,18 +229,22 @@ export const QuickSetupGuide_Links = [
         title: 'Create Account',
         description: 'Start by creating your account to get access to the dashboard and begin the setup process.',
         finishprocess: true,
+        href: '/seller',
     },{
         title: 'Set Up Profile',
         description: 'Complete your profile with personal and business details to customize your experience.',
         finishprocess: false,
+        href: '/seller/profile',
     },{
         title: 'Connect Payment Method',
         description: 'Link a payment method to ensure smooth transactions for your services.',
-        finishprocess: true,
+        finishprocess: false,
+        href: '/seller/payment',
     },{
-        title: 'Configure Settings',
+        title: 'Active You Store',
         description: 'Adjust the settings according to your preferences and requirements for the platform.',
         finishprocess: false,
+        href: '/seller/store',
     },
 ];
 
@@ -249,42 +253,92 @@ export const StatusCard_Links = [
         title: 'Pending Orders',
         icon: Clock,
         number: '34',
-        styles: 'text-yellow-800',
+        styles: 'text-yellow-400 glow-yellow',
     },{
         title: 'Completed Orders',
         icon: CheckCircle,
         number: '120',
-        styles: 'text-green-800',
+        styles: 'text-green-400 glow-green',
     },{
         title: 'Cancelled Orders',
         icon: XCircle,
         number: '5',
-        styles: 'text-red-800',
+        styles: 'text-red-400 glow-red',
     },{
         title: 'In Progress',
         icon: Loader,
         number: '8',
-        styles: 'text-blue-800',
+        styles: 'text-blue-400 glow-blue',
     },{
         title: 'New Users',
         icon: UserPlus,
         number: '15',
-        styles: 'text-teal-800',
+        styles: 'text-teal-400 glow-teal',
     },{
         title: 'Messages Received',
         icon: MessageCircle,
         number: '50',
-        styles: 'text-purple-800',
+        styles: 'text-purple-400 glow-purple',
     },{
         title: 'Total Earnings',
         icon: DollarSign,
         number: '$2,340',
-        styles: 'text-indigo-800',
+        styles: 'text-indigo-400 glow-indigo',
     },{
         title: 'Unresolved Issues',
         icon: AlertCircle,
         number: '3',
-        styles: 'text-orange-800',
+        styles: 'text-orange-400 glow-orange',
     },
 ];
 
+export const Test_Products = [
+    {
+        id: 1,
+        name: "Vintage Aesthetic T-Shirt",
+        description: "A stylish and comfortable vintage-themed T-shirt with high-quality print.",
+        price: 19.99,
+        image: "https://images.pexels.com/photos/3776694/pexels-photo-3776694.jpeg",
+        category: "T-Shirts",
+    },
+    {
+        id: 2,
+        name: "Custom Artwork Hoodie",
+        description: "A premium hoodie featuring unique custom artwork, perfect for all seasons.",
+        price: 39.99,
+        image: "https://images.pexels.com/photos/9558692/pexels-photo-9558692.jpeg",
+        category: "Hoodies",
+    },
+    {
+        id: 3,
+        name: "Minimalist Tote Bag",
+        description: "A sleek and stylish tote bag with a minimalist design, great for daily use.",
+        price: 24.99,
+        image: "https://images.pexels.com/photos/1104162/pexels-photo-1104162.jpeg",
+        category: "Accessories",
+    },
+    {
+        id: 4,
+        name: "Motivational Quote Mug",
+        description: "A ceramic mug featuring an inspiring quote to start your day with motivation.",
+        price: 14.99,
+        image: "https://images.pexels.com/photos/1787433/pexels-photo-1787433.jpeg",
+        category: "Mugs",
+    },
+    {
+        id: 5,
+        name: "Abstract Art Poster",
+        description: "A high-quality art print featuring abstract design, perfect for home decor.",
+        price: 29.99,
+        image: "https://images.pexels.com/photos/1907783/pexels-photo-1907783.jpeg",
+        category: "Wall Art",
+    },
+    {
+        id: 6,
+        name: "Trendy Phone Case",
+        description: "A durable and stylish phone case with an eye-catching design.",
+        price: 19.99,
+        image: "https://images.pexels.com/photos/5935742/pexels-photo-5935742.jpeg",
+        category: "Phone Cases",
+    }
+];

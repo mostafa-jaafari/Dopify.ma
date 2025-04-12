@@ -29,11 +29,24 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
             const user = userCredential.user;
             // Return user data on successful login
+            const userDocRef = doc(db, "users", user.email);
+            const userDocSnap = await getDoc(userDocRef);
+            let displayName = user.displayName || "UnknownUser"; // احتياطي
+            let profileImage = user.photoURL || "https://s.gravatar.com/avatar/0743d216d4ce5aea55b0a45675d313e4?s=64&d=mp"
+            if (userDocSnap.exists()) {
+              const userData = userDocSnap.data();
+              if (userData.firstname) {
+                displayName = userData.firstname;
+              }
+              if (userData.profileimage){
+                profileImage = userData.profileimage;
+              }
+            }
             return {
               id: user.uid,
               email: user.email,
-              name: user.displayName || "UnknowUser",
-              image: user.photoURL || "https://s.gravatar.com/avatar/0743d216d4ce5aea55b0a45675d313e4?s=64&d=mp",
+              name: displayName,
+              image: profileImage,
             };
           }
         } catch (error) {
@@ -49,7 +62,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.id = profile.sub;
         token.email = profile.email;
         token.name = profile.name;
-        token.picture = profile.picture || profile.image || "";
+        token.picture = profile.picture || profile.image || "https://s.gravatar.com/avatar/0743d216d4ce5aea55b0a45675d313e4?s=64&d=mp";
 
         try {
           if (profile.email) {
@@ -74,13 +87,33 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     async session({ session, token }) {
-      session.user = {
-        id: token.id as any,
-        email: token.email as string,
-        name: token.name as string,
-        image: token.picture as string,
-      };
-      return session;
-    },
+      try {
+        const userRef = doc(db, "users", token.email as string);
+        const userSnap = await getDoc(userRef);
+    
+        if (userSnap.exists()) {
+          const userData = userSnap.data();
+    
+          session.user = {
+            id: token.id as any,
+            email: token.email as string,
+            name: userData.firstname || token.name,
+            image: userData.profileimage || token.picture || "https://s.gravatar.com/avatar/0743d216d4ce5aea55b0a45675d313e4?s=64&d=mp",
+          };
+        } else {
+          session.user = {
+            id: token.id as any,
+            email: token.email as string,
+            name: token.name as string,
+            image: token.picture as string,
+          };
+        }
+    
+        return session;
+      } catch (error) {
+        console.error("❌ Error fetching user data from Firestore in session:", error);
+        return session;
+      }
+    },    
   },
 });

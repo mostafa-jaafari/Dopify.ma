@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { Nunito_Sans } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
+import MediaLibraryProvider from "@/components/MediaLibraryProvider";
 
 
-const inter = Inter({
+const nunitosans = Nunito_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
-  weight: ["100","400", "600", "900"],
+  weight: ["400", "600", "900"],
 });
 
 export const metadata: Metadata = {
@@ -23,11 +23,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <SessionProvider>
-        <body
-          className={`${inter.variable} antialiased`}
-        >
-          {children}
-        </body>
+        <MediaLibraryProvider>
+          <body
+            className={`${nunitosans.className}`}
+            >
+            {children}
+          </body>
+        </MediaLibraryProvider>
       </SessionProvider>
     </html>
   );

@@ -6,7 +6,10 @@ import React from 'react'
 export default function UITestimonialCard({IMAGE, DATE, DESCRIPTION, NAME, RATING}:{RATING:number;DATE:string;IMAGE:string;NAME:string;DESCRIPTION:string;}) {
   const Round_Rating = Math.round(RATING);
   return (
-    <div className='w-full flex-shrink-0 bg-neutral-800 border border-neutral-600 shadow p-6 rounded-lg flex flex-col items-center space-y-4'>
+    <div className='w-full flex-shrink-0 bg-neutral-100 
+      border border-neutral-300 shadow-lg p-6 rounded-lg 
+      flex flex-col items-center space-y-4'
+    >
         <div className='relative rounded-full w-30 h-30 border-2 border-neutral-300 overflow-hidden'>
             <Image src={IMAGE} alt='' fill className='object-cover'/>
         </div>
@@ -15,7 +18,11 @@ export default function UITestimonialCard({IMAGE, DATE, DESCRIPTION, NAME, RATIN
               <span className='flex space-x-1'>
                 {Array(5).fill(0).map((_, index) => {
                   return (
-                    <Star key={index} size={22} className={`text-yellow-500 ${index < Round_Rating && 'fill-yellow-500 text-yellow-500'}`}/>
+                    <Star 
+                      key={index} 
+                      size={22} 
+                      className={`text-yellow-500 
+                        ${index < Round_Rating && 'fill-yellow-500 text-yellow-500'}`}/>
                   )
                 })}
               </span>

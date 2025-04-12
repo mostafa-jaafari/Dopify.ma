@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import { auth, db } from '../../../../Firebase';
 import { AlertCircle, CheckCircle } from 'lucide-react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 
 export default function RegisterForm() {
     const [IsError, setIsError] = useState('');
@@ -18,12 +19,11 @@ export default function RegisterForm() {
         country: 'Morocco',
         phonenumber: '',
     })
-
     const HandleChangeInputs = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { value, name } = e.target;
         setRegisterInputs({...RegisterInputs, [name]: value});
     }
-    
+    const router = useRouter();
     const HandleSubmitRegister = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try{
@@ -43,11 +43,11 @@ export default function RegisterForm() {
                 firstname: RegisterInputs.firstname,
                 lastname: RegisterInputs.lastname,
                 email: RegisterInputs.email,
-                password: RegisterInputs.password,
                 phonenumber: RegisterInputs.phonenumber,
                 country: RegisterInputs.country,
             })
             setIsError('Account created successfully.')
+            router.push('/auth/login');
         }catch(error){
             if(error instanceof Error){
                 if(error.message.includes('auth/email-already-in-use')){
@@ -74,7 +74,8 @@ export default function RegisterForm() {
   return (
     <form  
         onSubmit={HandleSubmitRegister}
-        className="max-w-[500px] w-full space-y-4 rounded-lg px-6 py-8 border border-neutral-700"        >
+        className="max-w-[500px] w-full space-y-4 rounded-lg 
+        px-6 py-8 border border-neutral-200 shadow bg-white"        >
         {/* --------- First Name & Last Name --------- */}
         <section className='flex gap-2'>
             {/* --------- First Name --------- */}
@@ -86,14 +87,21 @@ export default function RegisterForm() {
                     name="firstname" 
                     id="FirstName" 
                     placeholder='' 
-                    className='w-full peer border border-neutral-700 outline-none focus:border-[#009eb3] rounded-lg p-3'
+                    className='w-full peer border border-neutral-300 
+                    outline-none 
+                    focus:border-[#1c44f5] 
+                    rounded-lg p-3'
                     required
                 />
                 <label 
                     htmlFor="FirstName"
-                    className='absolute cursor-pointer left-3 bottom-10 transition-all bg-[#000000] px-1 text-neutral-500
+                    className='absolute cursor-pointer left-3 
+                    bottom-10 transition-all 
+                    bg-white 
+                    px-1
+                    text-neutral-500
                     peer-focus:bottom-10
-                    peer-focus:text-[#009eb3]
+                    peer-focus:text-[#1c44f5]
                     peer-placeholder-shown:bottom-3'
                     >
                     First Name
@@ -108,14 +116,21 @@ export default function RegisterForm() {
                     name="lastname" 
                     id="LastName" 
                     placeholder='' 
-                    className='w-full peer border border-neutral-700 outline-none focus:border-[#009eb3] rounded-lg p-3'
+                    className='w-full peer border border-neutral-300 
+                    outline-none 
+                    focus:border-[#1c44f5] 
+                    rounded-lg p-3'
                     required
                 />
                 <label 
                     htmlFor="LastName"
-                    className='absolute cursor-pointer left-3 bottom-10 transition-all bg-[#000000] px-1 text-neutral-500
+                    className='absolute cursor-pointer left-3 bottom-10 
+                    transition-all 
+                    bg-white 
+                    px-1 
+                    text-neutral-500
                     peer-focus:bottom-10
-                    peer-focus:text-[#009eb3]
+                    peer-focus:text-[#1c44f5]
                     peer-placeholder-shown:bottom-3'
                     >
                     Last Name
@@ -132,14 +147,17 @@ export default function RegisterForm() {
                     name="email" 
                     id="EmailAddress" 
                     placeholder='' 
-                    className='w-full peer border border-neutral-700 outline-none focus:border-[#009eb3] rounded-lg p-3'
+                    className='w-full peer border border-neutral-300 
+                    outline-none 
+                    focus:border-[#1c44f5] 
+                    rounded-lg p-3'
                     required
                 />
                 <label 
                     htmlFor="EmailAddress"
-                    className='absolute cursor-pointer left-3 bottom-10 transition-all bg-[#000000] px-1 text-neutral-500
+                    className='absolute cursor-pointer left-3 bottom-10 transition-all bg-white px-1 text-neutral-500
                     peer-focus:bottom-10
-                    peer-focus:text-[#009eb3]
+                    peer-focus:text-[#1c44f5]
                     peer-placeholder-shown:bottom-3'
                     >
                     Email Address
@@ -156,14 +174,17 @@ export default function RegisterForm() {
                     name="password" 
                     id="Password" 
                     placeholder='' 
-                    className='w-full peer border border-neutral-700 outline-none focus:border-[#009eb3] rounded-lg p-3'
+                    className='w-full peer border border-neutral-300 
+                    outline-none 
+                    focus:border-[#1c44f5] 
+                    rounded-lg p-3'
                     required
                 />
                 <label 
                     htmlFor="Password"
-                    className='absolute cursor-pointer left-3 bottom-10 transition-all bg-[#000000] px-1 text-neutral-500
+                    className='absolute cursor-pointer left-3 bottom-10 transition-all bg-white px-1 text-neutral-500
                     peer-focus:bottom-10
-                    peer-focus:text-[#009eb3]
+                    peer-focus:text-[#1c44f5]
                     peer-placeholder-shown:bottom-3'
                     >
                     Password
@@ -180,14 +201,17 @@ export default function RegisterForm() {
                     name="confirmpassword" 
                     id="ConfirmPassword" 
                     placeholder='' 
-                    className='w-full peer border border-neutral-700 outline-none focus:border-[#009eb3] rounded-lg p-3'
+                    className='w-full peer border border-neutral-300 
+                    outline-none 
+                    focus:border-[#1c44f5] 
+                    rounded-lg p-3'
                     required
                 />
                 <label 
                     htmlFor="ConfirmPassword"
-                    className='absolute cursor-pointer left-3 bottom-10 transition-all bg-[#000000] px-1 text-neutral-500
+                    className='absolute cursor-pointer left-3 bottom-10 transition-all bg-white px-1 text-neutral-500
                     peer-focus:bottom-10
-                    peer-focus:text-[#009eb3]
+                    peer-focus:text-[#1c44f5]
                     peer-placeholder-shown:bottom-3'
                     >
                     Confirm Password
@@ -201,7 +225,12 @@ export default function RegisterForm() {
                 value={RegisterInputs.country}
                 name="country" 
                 id="Country"
-                className='grow border border-neutral-700 focus:text-[#009eb3] focus:border-[#009eb3] outline-none rounded-lg px-3'
+                className='grow border border-neutral-300 
+                focus:text-[#1c44f5] 
+                focus:border-[#1c44f5] 
+                outline-none 
+                rounded-lg 
+                px-3'
                 >
                 <option value="morocco" selected>Morocco</option>
                 <option value="egypt">Egypt</option>
@@ -216,14 +245,17 @@ export default function RegisterForm() {
                     name="phonenumber" 
                     id="PhoneNumber" 
                     placeholder='' 
-                    className='w-full peer border border-neutral-700 outline-none focus:border-[#009eb3] rounded-lg p-3'
+                    className='w-full peer border border-neutral-300 
+                    outline-none 
+                    focus:border-[#1c44f5] 
+                    rounded-lg p-3'
                     required
                 />
                 <label 
                     htmlFor="PhoneNumber"
-                    className='absolute cursor-pointer left-3 bottom-10 transition-all bg-[#000000] px-1 text-neutral-500
+                    className='absolute cursor-pointer left-3 bottom-10 transition-all bg-white px-1 text-neutral-500
                     peer-focus:bottom-10
-                    peer-focus:text-[#009eb3]
+                    peer-focus:text-[#1c44f5]
                     peer-placeholder-shown:bottom-3'
                     >
                     Phone Number

@@ -82,7 +82,9 @@ export default function Testimonials() {
             <ChevronRight onClick={ScrollRight} size={30} className={`z-50 flex-shrink-0 text-white rounded-full cursor-pointer
                 ${currentIndex !== Users_Reviews.length - 1 ? 'bg-yellow-500' : 'bg-neutral-500'}`}/>
         </div>
-        <div ref={ScrollRef} className="full flex overflow-x-scroll no-scrollbar">
+        <div 
+            ref={ScrollRef} 
+            className="full flex overflow-x-scroll no-scrollbar">
             {Users_Reviews.map((review, index) => {
             return (
                 <UITestimonialCard 
@@ -102,7 +104,7 @@ export default function Testimonials() {
               <span 
                 key={index}
                 className={`rounded-full border transition-all duration-300 
-                ${currentIndex === index ? "w-8 h-3 border-yellow-600 bg-transparent" : "w-3 h-3 border-neutral-600 bg-neutral-700"}`}
+                ${currentIndex === index ? "w-8 h-3 border-yellow-600 bg-transparent" : "w-3 h-3 border-none bg-neutral-400"}`}
                 ></span>
             )
           })}

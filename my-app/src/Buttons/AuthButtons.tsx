@@ -14,13 +14,16 @@ export const SignInGoogle = () => {
   return (
     <section className='space-y-4'>
       <div className='w-full flex items-center gap-2'>
-        <hr className='w-full border-neutral-700'/>
+        <hr className='w-full border-neutral-300'/>
         <span>Or</span>
-        <hr className='w-full border-neutral-700'/>
+        <hr className='w-full border-neutral-300'/>
       </div>
       <button
         onClick={HandleSubmit}
-        className="flex items-center justify-center gap-2 w-full bg-gray-300 hover:bg-gray-100 cursor-pointer text-black py-2 rounded-lg"
+        className="flex items-center justify-center 
+        gap-2 w-full bg-gray-100 hover:bg-gray-200
+        border border-neutral-300 shadow 
+        cursor-pointer text-black py-2 rounded-lg"
       >
         <Image src={GoogleIcon} width={30} alt='Google Provider' ></Image>
         <span className="font-medium text-lg">Sign in with Google</span>
@@ -33,7 +36,9 @@ export const SignOut = () => {
   return (
     <button 
       onClick={() => signOut()}
-      className='bg-[#6e0000] hover:bg-red-700 w-full cursor-pointer py-1 rounded-lg mt-1 border border-red-500 hover:border-red-400'>
+      className='bg-red-900 text-white font-semibold hover:bg-red-800 
+        w-full cursor-pointer py-1 rounded-lg mt-1 hover:text-red-100'
+    >
         Sign Out
     </button>
   )
