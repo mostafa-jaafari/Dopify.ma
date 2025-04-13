@@ -3,6 +3,7 @@ import "../globals.css";
 import SideBar from "./SideBar";
 import SellerHeader from "./SellerHeader";
 import { StateProvider } from "./StateProvider";
+import { LoadingPageProvider } from "./LoadingPageProvider";
 
 
 export const metadata: Metadata = {
@@ -13,13 +14,15 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: {children: React.ReactNode}){
   return (
     <StateProvider>
+      <LoadingPageProvider>
         <main className="w-full flex">
-            <SideBar />
+          <SideBar />
           <section className="w-full">
             <SellerHeader />
             {children}
           </section>
         </main>
+      </LoadingPageProvider>
     </StateProvider>
   );
 }

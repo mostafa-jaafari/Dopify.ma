@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react"
 import Image from "next/image"
 import Link from "next/link"
 import { useContext } from "react"
+import DraggableImage from "./DraggableImage"
 
 
 export default function MediaLibraryComponent(){
@@ -26,7 +27,7 @@ export default function MediaLibraryComponent(){
             })
         }
     return (
-        <main className="shadow-lg border border-neutral-300 rounded-lg p-4 max-h-[70vh] overflow-y-scroll no-scrollbar">
+        <main className="shadow-lg w-max h-full border border-neutral-300 rounded-lg p-4 bg-white overflow-y-scroll no-scrollbar">
             {IsLoadingData ? 
             (
                 <div className="w-full flex justify-center">
@@ -38,17 +39,11 @@ export default function MediaLibraryComponent(){
                 MediaLibraryData.length > 0 ? 
                 (
                 <section className="w-full grid gap-2 grid-cols-3">
-                    {MediaLibraryData.map((image, index) => {
-                        return (
-                            <div key={index} className="w-max h-max">
-                                <div className="relative shadow overflow-hidden w-[90px] h-[90px] border border-neutral-400 rounded-lg">
-                                    <Image src={image} alt="" fill className="object-cover"/>
-                                    <X onClick={() => HandleDeleteItem(index)} size={16} className="bg-red-600 hover:bg-red-500 cursor-pointer rounded-full text-white absolute right-1 top-1" />
-                                </div>
-                            <CalculateImageSize IMAGESELECTED={image}/>
-                        </div>
-                        )
-                    })}
+                    {MediaLibraryData.map((image, index) => (
+                        <DraggableImage key={index} image={image} index={index} onDelete={HandleDeleteItem} />
+                    ))}
+
+
                 </section>
                 ) : (
                 <section className="w-full shadow bg-white border border-neutral-200 rounded-lg p-4 space-y-6 py-12">

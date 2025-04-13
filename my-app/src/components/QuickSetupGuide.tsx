@@ -6,6 +6,7 @@ import React from 'react'
 
 
 export default function QuickSetupGuide() {
+
   return (
     <main className='overflow-hidden rounded-lg bg-white 
     shadow-lg border border-neutral-300 shadow-lg'>

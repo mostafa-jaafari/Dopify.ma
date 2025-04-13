@@ -5,23 +5,28 @@ import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { StateContext } from "./StateProvider";
 import { usePathname } from "next/navigation";
+import { PageLoadingContext } from "./LoadingPageProvider";
+
 
 export default function SideBar() {
     const pathname = usePathname();
     const [ActivePage, setActivePage] = useState<string>('');
+    const LoadingContext = useContext(PageLoadingContext)
+    const setIsPageLoading = LoadingContext?.setIsPageLoading;
     useEffect(() => {
-        const currentpath = pathname.split('/seller/')[1] || 'dashboard';
-        const pathfounded = SideBar_Links.find((path) => path.label.toLowerCase().replace(' ', '') === currentpath.replace('/', ''));
-        if(pathfounded){
-            setActivePage(pathfounded.label as string);
-        }
+            const currentpath = pathname.split('/seller/')[1] || 'dashboard';
+            const pathfounded = SideBar_Links.find((path) => path.label.toLowerCase().replace(' ', '') === currentpath.replace('/', ''));
+            if(pathfounded){
+                setActivePage(pathfounded.label as string);
+                setIsPageLoading(false);
+            }
     }, [pathname])
 
-    const Context = useContext(StateContext);
-    if (!Context) {
+    const MenuContext = useContext(StateContext);
+    if (!MenuContext || !LoadingContext) {
         return null;
     }
-    const { IsOpen } = Context;
+    const { IsOpen } = MenuContext;
 
     return (
         <main className={`flex-shrink-0 transition-all duration-200 overflow-hidden 
@@ -41,7 +46,10 @@ export default function SideBar() {
                     return (
                         <Link 
                             key={index}
-                            onClick={() => setActivePage(sidelink.label)}
+                            onClick={() => {
+                                setActivePage(sidelink.label)
+                                setIsPageLoading(true)
+                            }}
                             href={`${sidelink.label !== 'photopea editor' ? "/seller/" : "/"}${sidelink.label === 'dashboard' ? '' : sidelink.label.toLowerCase().replace(' ', '')}`}
                             className={`text-nowrap py-2 flex ${IsOpen ? "px-2" : "px-4"}
                              gap-4 hover:text-blue-700 font-semibold 

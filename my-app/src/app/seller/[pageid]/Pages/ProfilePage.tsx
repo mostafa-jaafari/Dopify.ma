@@ -1,5 +1,4 @@
 'use client';
-
 import { db } from "Firebase";
 import { EmailAuthProvider, getAuth, reauthenticateWithCredential, updatePassword } from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
