@@ -5,21 +5,13 @@ import {
     LayoutDashboard,
     FileText,
     ShoppingCart,
-    Package,
     DollarSign,
     Image,
-    Receipt,
-    PaintBucket,
-    RotateCw,
-    Store,
     Clock, 
     CheckCircle, 
-    XCircle, 
-    Loader, 
-    UserPlus, 
-    MessageCircle, 
-    AlertCircle,
-    Paintbrush
+    XCircle,
+    Paintbrush,
+    ImageUp
 } from "lucide-react";
 export const Navigation_Header_Links = [
     { label: "Home", path: "/" },
@@ -255,41 +247,42 @@ export const StatusCard_Links = [
         number: '34',
         styles: 'text-yellow-400 glow-yellow',
     },{
-        title: 'Completed Orders',
-        icon: CheckCircle,
-        number: '120',
-        styles: 'text-green-400 glow-green',
-    },{
         title: 'Cancelled Orders',
         icon: XCircle,
         number: '5',
         styles: 'text-red-400 glow-red',
     },{
-        title: 'In Progress',
-        icon: Loader,
-        number: '8',
-        styles: 'text-blue-400 glow-blue',
-    },{
-        title: 'New Users',
-        icon: UserPlus,
-        number: '15',
-        styles: 'text-teal-400 glow-teal',
-    },{
-        title: 'Messages Received',
-        icon: MessageCircle,
-        number: '50',
-        styles: 'text-purple-400 glow-purple',
+        title: 'Completed Orders',
+        icon: CheckCircle,
+        number: '120',
+        styles: 'text-indigo-400 glow-indigo',
     },{
         title: 'Total Earnings',
         icon: DollarSign,
         number: '$2,340',
-        styles: 'text-indigo-400 glow-indigo',
-    },{
-        title: 'Unresolved Issues',
-        icon: AlertCircle,
-        number: '3',
-        styles: 'text-orange-400 glow-orange',
-    },
+        styles: 'text-green-400 glow-green',
+    }
+    // ,{
+    //     title: 'In Progress',
+    //     icon: Loader,
+    //     number: '8',
+    //     styles: 'text-blue-400 glow-blue',
+    // },{
+    //     title: 'New Users',
+    //     icon: UserPlus,
+    //     number: '15',
+    //     styles: 'text-teal-400 glow-teal',
+    // },{
+    //     title: 'Messages Received',
+    //     icon: MessageCircle,
+    //     number: '50',
+    //     styles: 'text-purple-400 glow-purple',
+    // },{
+    //     title: 'Unresolved Issues',
+    //     icon: AlertCircle,
+    //     number: '3',
+    //     styles: 'text-orange-400 glow-orange',
+    // },
 ];
 
 export const Test_Products = [
@@ -341,4 +334,17 @@ export const Test_Products = [
         image: "https://images.pexels.com/photos/5935742/pexels-photo-5935742.jpeg",
         category: "Phone Cases",
     }
+];
+
+export const MediaLibraryRenderSection = [
+    {
+        icon: FileText,
+        label: 'Media',
+    },{
+        icon: ImageUp,
+        label: 'Upload',
+    },{
+        icon: ImageUp,
+        label: 'Media2',
+    },
 ];

@@ -1,256 +1,275 @@
 'use client';
-import { useDroppable } from "@dnd-kit/core";
-import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
-import { Move, ZoomOut, ZoomIn, RefreshCcw, Trash2, Undo } from "lucide-react";
-import { DndContext, closestCenter, useSensor, useSensors, PointerSensor } from "@dnd-kit/core";
-import MediaLibraryComponent from "./MediaLibraryComponent";
-import Loading from "@/components/Loading";
+import { MLData } from "@/components/MediaLibraryProvider";
+import { toPng } from "html-to-image";
+import { useContext, useRef, useState } from "react";
+import download from 'downloadjs';
+import {
+    ZoomIn,
+    ZoomOut,
+    RotateCw,
+    RefreshCcw,
+    Trash2,
+} from 'lucide-react';
+import { MediaLibraryRenderSection } from "@/GlobalLinks";
 
-function DropZone({ image, onRemoveImage }: { image: string | null, onRemoveImage: () => void }) {
-  const { setNodeRef, isOver } = useDroppable({
-    id: "drop-zone",
-  });
-  
-  // State for resize functionality
-  const [imageSize, setImageSize] = useState(100); // Size as percentage
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragStartPos, setDragStartPos] = useState({ x: 0, y: 0 });
-  const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
-  const [rotation, setRotation] = useState(0);
-  
-  // Refs for smooth dragging
-  const imageRef = useRef<HTMLDivElement>(null);
-  const positionRef = useRef(imagePosition);
-  
-  // Update ref when state changes
-  useEffect(() => {
-    positionRef.current = imagePosition;
-  }, [imagePosition]);
-  
-  // Function to handle resizing image
-  const handleResize = (changeAmount: number) => {
-    setImageSize(prev => {
-      const newSize = prev + changeAmount;
-      return Math.min(Math.max(newSize, 30), 200); // Limit between 30% and 200%
-    });
-  };
-  
-  // Function to handle image repositioning with requestAnimationFrame
-  const startDrag = (e) => {
-    e.preventDefault(); // Prevent text selection during drag
-    setIsDragging(true);
-    setDragStartPos({
-      x: e.clientX - positionRef.current.x,
-      y: e.clientY - positionRef.current.y
-    });
-  };
-  
-  const onDrag = (e) => {
-    if (!isDragging) return;
-    
-    // Use requestAnimationFrame for smooth animation
-    requestAnimationFrame(() => {
-      const newX = e.clientX - dragStartPos.x;
-      const newY = e.clientY - dragStartPos.y;
-      
-      // Apply position directly to DOM for smoother movement
-      if (imageRef.current) {
-        // Update the state for when the drag ends
-        setImagePosition({ x: newX, y: newY });
-        positionRef.current = { x: newX, y: newY };
-      }
-    });
-  };
-  
-  const endDrag = () => {
-    setIsDragging(false);
-  };
-  
-  // Add event listeners for drag
-  useEffect(() => {
-    const handleMouseMove = (e) => onDrag(e);
-    const handleMouseUp = () => endDrag();
-    
-    if (isDragging) {
-      window.addEventListener('mousemove', handleMouseMove, { passive: true });
-      window.addEventListener('mouseup', handleMouseUp);
-    }
-    
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
+export default function DragDropWrapper({ ProductId }) {
+    // State to track the currently dragged item
+    const [DraggedItem, setDraggedItem] = useState(null);
+    // State to track the item dropped into the drop zone
+    const [DroppedItem, setDroppedItem] = useState(null);
+    // Accessing media library data from context
+    const { MediaLibraryData } = useContext(MLData);
+
+    // Function to handle drag start event
+    const HandleDragStart = (e, design) => {
+        setDraggedItem(design);
+        e.dataTransfer.setData('image', design);
     };
-  }, [isDragging, dragStartPos]);
-  
-  // Reset all transformations
-  const resetTransformations = () => {
-    setImageSize(100);
-    setImagePosition({ x: 0, y: 0 });
-    positionRef.current = { x: 0, y: 0 };
-    setRotation(0);
-  };
-  
-  // Handle rotation
-  const rotateImage = () => {
-    setRotation(prev => (prev + 90) % 360);
-  };
-  
-  return (
-    <section className="w-full relative">
+
+    // Function to handle drag over event
+    const HandleDragOver = (e) => {
+        e.preventDefault();
+    };
+
+    // Function to handle drop event
+    const HandleDrop = (e) => {
+        try {
+            e.preventDefault();
+            setDroppedItem(DraggedItem);
+            setDraggedItem(null);
+        } catch {
+            alert('Something went wrong, please call support!');
+        }
+    };
+
+    // State to store templates from localStorage
+    const [storedData, setStoredData] = useState<any[]>(() => {
+        const savedTemplates = localStorage.getItem("Template-Products");
+        return savedTemplates ? JSON.parse(savedTemplates) : [];
+    });
+
+    // Find the selected template based on ProductId
+    const SelectedTemplate = storedData.find((temp) => temp.id === Number(ProductId));
+
+    // State to track the position of the dropped item
+    const [position, setPosition] = useState({ x: 100, y: 20 });
+    // State to track if the item is being dragged
+    const [isDragging, setIsDragging] = useState(false);
+
+    // Function to handle mouse down event for dragging
+    const handleMouseDown = (e) => {
+        setIsDragging(true);
+    };
+
+    // Function to handle mouse up event to stop dragging
+    const handleMouseUp = () => {
+        setIsDragging(false);
+    };
+
+    // Function to handle mouse move event for dragging
+    const handleMouseMove = (e) => {
+        if (!isDragging) return;
+        setPosition((prev) => ({
+            x: prev.x + e.movementX,
+            y: prev.y + e.movementY,
+        }));
+    };
+
+    // State to track zoom level
+    const [zoom, setZoom] = useState(1);
+    // State to track rotation angle
+    const [rotate, setRotate] = useState(0);
+
+    // Function to handle zoom in
+    const HandleZoom = () => {
+        setZoom(prev => prev + 0.12);
+    };
+
+    // Function to handle zoom out
+    const HandleZoomOut = () => {
+        setZoom(prev => prev - 0.12);
+    };
+
+    // Function to handle rotation
+    const HandleRotate = () => {
+        setRotate(prev => prev + 45);
+    };
+
+    // Function to reset zoom, rotation, and position
+    const HandleReset = () => {
+        setZoom(1);
+        setRotate(0);
+        setPosition({ x: 100, y: 20 });
+    };
+
+    // Function to delete the dropped design
+    const HandleDeleteDesign = () => {
+        setDraggedItem(null);
+        setDroppedItem(null);
+    };
+
+    // Ref to track the image container for downloading
+    const ImageToDownloadRef = useRef(null);
+
+    // Function to download the image as PNG
+    const downloadImage = () => {
+        if (!ImageToDownloadRef.current) return;
+
+        toPng(ImageToDownloadRef.current, {
+            cacheBust: true,
+            pixelRatio: 3, // Higher value for better quality
+            width: ImageToDownloadRef.current.offsetWidth,
+            height: ImageToDownloadRef.current.offsetHeight
+        })
+            .then((dataUrl) => {
+                download(dataUrl, 'design.png');
+            })
+            .catch((err) => {
+                console.error('Error generating image:', err);
+            });
+    };
+    const [ActiveTab, setActiveTab] = useState('media');
+        // State for the Image That will deploy to Cloudinary then Firestore
+    const [SelectedFile, setSelectedFile] = useState(null);
+        // State for a Preview Image
+    const [ImagePreview, setImagePreview] = useState(null);
+    const HandleChooseFile = (e) => {
+        const file = e.target.files[0];
+        if(file){
+            setSelectedFile(file);
+            const URLImage = URL.createObjectURL(file);
+            setImagePreview(URLImage);
+        }
+    }
+    const HandleRenderTab = () => {
+        switch (ActiveTab) {
+            case 'media':
+                return (
+                    <div className="w-full h-full flex flex-col items-center justify-center">
+                        <h1 className="text-2xl font-semibold text-neutral-700">Media Library</h1>
+                    </div>
+                );
+            case 'upload':
+                return (
+                    <div className="w-full h-full flex flex-col items-center justify-center">
+                        Upload Media
+                    </div>
+                )
+            default:
+                return null;
+        }
+    }
+    return (
+        <main className="w-full flex justify-start items-start gap-10">
+            {/* Section for media library */}
+            <section className="w-1/3 flex border border-neutral-200 bg-white h-120 rounded-lg overflow-hidden">
+                <ul className="h-full border-r border-neutral-200">
+                    {MediaLibraryRenderSection.map((item, index) => {
+                        const FiltredItem = item.label.toLocaleLowerCase().replace(' ','');
+                        return (
+                            <li 
+                                key={index}
+                                onClick={() => setActiveTab(FiltredItem)}
+                                className={`flex flex-col items-center border-b 
+                                    border-neutral-200 px-2 py-1 cursor-pointer ${ActiveTab.toLocaleLowerCase().replace(' ','') === FiltredItem ? 'bg-neutral-900/40 text-white' : ''}`}>
+                                    <item.icon />
+                                    {item.label}
+                                </li>
+                        )
+                    })}
+                </ul>
+                <div>
+                    {HandleRenderTab()}
+                </div>
+            </section>
+
+    {/* Section for the drop zone and design manipulation */}
+    <section className="relative w-120 h-120 flex flex-col items-center gap-2">
+    {/* Container for the selected template */}
+    <section
+        ref={ImageToDownloadRef}
+        style={{
+            backgroundImage: `url(${SelectedTemplate?.image})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+        }}
+        className="w-full h-full rounded-lg flex justify-center items-center overflow-hidden"
+    >
+        {/* Drop zone for dragging and dropping designs */}
         <div
-            ref={setNodeRef}
-            className={`w-full h-[250px] transition-colors duration-200
-            ${isOver ? "border-2 border-blue-500 bg-blue-600/50" : image ? "border-1 border-blue-600 border-dashed" : "border-2 border-dashed text-blue-500 border-blue-600 bg-blue-500/20"}
-            rounded-lg flex items-center justify-center relative overflow-hidden`}
+            onDrop={HandleDrop}
+            onDragOver={HandleDragOver}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+            className="relative w-full h-full flex flex-col justify-center items-center overflow-hidden"
         >
-        {image ? (
-            <>
-            <div 
-                className="absolute inset-0 flex items-center justify-center"
-                style={{ touchAction: 'none' }}
-            >
+            {DroppedItem !== null ? (
                 <div
-                ref={imageRef}
-                className="relative cursor-move"
-                style={{
-                    transform: `translate(${imagePosition.x}px, ${imagePosition.y}px) rotate(${rotation}deg) scale(${imageSize/100})`,
-                    transition: isDragging ? 'none' : 'transform 0.2s ease',
-                    maxWidth: '100%',
-                    maxHeight: '100%',
-                    willChange: 'transform' // Optimizes transform animations
-                }}
-                onMouseDown={startDrag}
-                onTouchStart={(e) => {
-                  e.preventDefault();
-                  const touch = e.touches[0];
-                  startDrag({ clientX: touch.clientX, clientY: touch.clientY, preventDefault: () => {} });
-                }}
+                    style={{
+                        position: 'absolute',
+                        top: position.y,
+                        left: position.x,
+                        width: `${480 * zoom}px`,
+                        height: `${480 * zoom}px`,
+                        transform: `rotate(${rotate}deg)`,
+                        transformOrigin: 'center center',
+                    }}
+                    onMouseDown={handleMouseDown}
                 >
-                <Image 
-                    src={image} 
-                    alt="Dropped design" 
-                    width={200} 
-                    height={200}
-                    className="object-cover"
-                    draggable="false" // Prevent browser's native drag
-                />
+                    {/* Render the dropped design */}
+                    <img
+                        src={DroppedItem}
+                        alt=""
+                        draggable={false}
+                        onDragStart={(e) => e.preventDefault()}
+                        style={{ width: '100%', height: '100%' }}
+                        className="rounded-lg object-contain"
+                    />
                 </div>
-            </div>
-            </>
-        ) : (
-            <span className="text-blue-100 font-semibold flex items-center gap-2">
-            <ZoomIn size={18} /> Drop image here
-            </span>
-        )}
+            ) : (
+                <div className="w-[90%] h-60 font-semibold flex gap-1 
+                    justify-center items-center border border-dashed 
+                    border-blue-600 text-blue-600 rounded-lg bg-blue-600/20">
+                    <ZoomIn size={20} /> Drop You Design Here...
+                </div>
+            )}
         </div>
-        {/* Control toolbar */}
-        {image && (
-            <div className="absolute -bottom-9 left-1/2 transform -translate-x-1/2 
-            backdrop-blur-sm rounded-full px-3 py-1 shadow-lg 
-            border border-neutral-200 flex gap-2 text-blue-100">
-                    <button 
-                    onClick={() => handleResize(10)}
-                    className="p-1 border border-transparent hover:border hover:border-neutral-100 cursor-pointer rounded-full" 
-                    title="Increase size"
-                    >
-                    <ZoomIn size={16} />
-                    </button>
-                    <button 
-                    onClick={() => handleResize(-10)}
-                    className="p-1 border border-transparent hover:border hover:border-neutral-100 cursor-pointer rounded-full" 
-                    title="Decrease size"
-                    >
-                    <ZoomOut size={16} />
-                    </button>
-                    <button 
-                    onClick={rotateImage}
-                    className="p-1 border border-transparent hover:border hover:border-neutral-100 cursor-pointer rounded-full" 
-                    title="Rotate"
-                    >
-                    <RefreshCcw size={16} />
-                    </button>
-                    <button 
-                    onClick={resetTransformations}
-                    className="p-1 border border-transparent hover:border hover:border-neutral-100 cursor-pointer rounded-full" 
-                    title="Reset"
-                    >
-                    <Undo size={16} />
-                    </button>
-                    <button 
-                    onClick={onRemoveImage}
-                    className="p-1 hover:bg-red-100 text-red-600 rounded-full" 
-                    title="Remove"
-                    >
-                    <Trash2 size={16} />
-                    </button>
-                </div>
-        )}
     </section>
-  );
-}
 
+    {/* Controls for zoom, rotate, reset, and delete */}
+    {DroppedItem !== null && (
+        <div className="absolute -right-27 bg-white flex gap-1 border border-neutral-400 rounded-[50px] rotate-90 py-0.5 px-1">
+            <ZoomIn
+                onClick={HandleZoom}
+                size={28}
+                className="text-neutral-700 cursor-pointer border border-transparent rounded-full 
+                    hover:border-neutral-500 p-1 -rotate-90" />
+            <ZoomOut
+                onClick={HandleZoomOut}
+                size={28}
+                className="text-neutral-700 cursor-pointer border border-transparent rounded-full 
+                    hover:border-neutral-500 p-1 -rotate-90" />
+            <RotateCw
+                onClick={HandleRotate}
+                size={28}
+                className="text-neutral-700 cursor-pointer border border-transparent rounded-full 
+                    hover:border-neutral-500 p-1 -rotate-90" />
+            <RefreshCcw
+                onClick={HandleReset}
+                size={28}
+                className="text-neutral-700 cursor-pointer border border-transparent rounded-full 
+                    hover:border-neutral-500 p-1 -rotate-90" />
+            <Trash2
+                onClick={HandleDeleteDesign}
+                size={28}
+                className="text-red-600 -rotate-90 p-1.5 rounded-full 
+                    cursor-pointer hover:bg-red-600 hover:text-white" />
+        </div>
+    )}
+</section>
 
-export default function DragDropWrapper({ PRODUCTID }) {
-  const [droppedImage, setDroppedImage] = useState<string | null>(null);
-  const [selectedTemplate, setSelectedTemplate] = useState(null);
-  const [IsLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setIsLoading(true);
-    const raw = localStorage.getItem("Template-Products");
-    if (raw) {
-      try {
-        const templates = JSON.parse(raw);
-        const selected = templates.find((product) => product.id.toString() === PRODUCTID.toString());
-        setSelectedTemplate(selected);
-      } catch (error) {
-        console.error("Failed to parse localStorage:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-  }, [PRODUCTID]);
-
-  const handleDragEnd = (event) => {
-    const { over, active } = event;
-    
-    if (over && over.id === "drop-zone") {
-      setDroppedImage(active.data.current.image);
-    }
-  };
-
-  const handleRemoveImage = () => {
-    setDroppedImage(null);
-  };
-
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 10,
-      },
-    })
-  );
-
-  return (
-    <main className="w-full flex items-start">
-      <DndContext sensors={sensors} onDragEnd={handleDragEnd} collisionDetection={closestCenter}>
-        <MediaLibraryComponent />
-        <section className="grow flex flex-col items-center">
-          {IsLoading ? (
-            <div className="grow min-h-50 flex justify-center items-center">
-              <Loading />
-            </div>
-          ) : (
-            <div className="relative w-[450px] h-[450px] rounded-lg border border-neutral-200 overflow-hidden shadow-lg">
-              <Image src={selectedTemplate.image} alt="" fill className="object-cover" />
-              <section className="absolute left-0 top-0 w-full flex flex-col justify-center items-center px-6 h-full">
-                <DropZone image={droppedImage} onRemoveImage={handleRemoveImage} />
-              </section>
-            </div>
-          )}
-        </section>
-      </DndContext>
-    </main>
-  );
+        </main>
+    );
 }

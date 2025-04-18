@@ -1,6 +1,6 @@
 import { Info } from "lucide-react";
-import DragDropWrapper from "./DragDropWrapper";
 import ImageBackground from '../../../../public/Pattern_Background.webp';
+import DragDropWrapper from "./DragDropWrapper";
 
 export default async function page({params}){
     const ProductId = params.productdetailsid;
@@ -28,7 +28,7 @@ export default async function page({params}){
             </div>
             {/* ------------------  ------------------ */}
             <section className="w-full flex gap-4 py-10 px-20">
-                <DragDropWrapper PRODUCTID={ProductId}/>
+                <DragDropWrapper ProductId={ProductId}/>
             </section>
         </main>
     )

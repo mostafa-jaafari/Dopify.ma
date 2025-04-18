@@ -134,42 +134,9 @@ export default function ProfilePage(){
         }
     return (
         <main className="w-full space-y-8">
-            <section className="grid gap-2 grid-cols-3 border 
-                border-neutral-200 rounded-lg bg-white p-2">
-                {/* ------- Total Earnings -------  */}
-                <div className="w-full rounded-lg flex items-center gap-4 bg-green-600/10 p-2">
-                    <div className="rounded-full flex-shrink-0 border border-green-600 w-max p-1">
-                        <DollarSign className="text-green-600" size={30}/>
-                    </div>
-                    <span className="text-xl">
-                        <p>Total Earnings</p>
-                        <b>0$</b>
-                    </span>
-                </div>
-                {/* ------- Confirmed Orders -------  */}
-                <div className="w-full rounded-lg flex items-center gap-4 bg-violet-600/10 p-2">
-                    <div className="rounded-full flex-shrink-0 border border-violet-600 w-max p-1">
-                        <Check className="text-violet-600" size={30}/>
-                    </div>
-                    <span className="text-xl">
-                        <p>Confirmed Orders</p>
-                        <b>0</b>
-                    </span>
-                </div>
-                {/* ------- Return Orders -------  */}
-                <div className="w-full rounded-lg flex items-center gap-4 bg-red-600/10 p-2">
-                    <div className="rounded-full flex-shrink-0 border border-red-600 w-max p-1">
-                        <Undo2 className="text-red-600" size={30}/>
-                    </div>
-                    <span className="text-xl">
-                        <p>Return Orders</p>
-                        <b>0</b>
-                    </span>
-                </div>
-            </section>
             <section className="w-full border border-neutral-300 rounded-lg 
-                bg-white overflow-hidden shadow-lg">
-                <div className="w-full border-b border-neutral-200 py-2 px-4 bg-blue-100">
+                bg-white overflow-hidden shadow">
+                <div className="w-full border-b border-neutral-200 py-2 px-4 bg-black text-white">
                     <h1 className="text-xl font-semibold">
                         Profile Information
                     </h1>
@@ -178,13 +145,23 @@ export default function ProfilePage(){
                     </p>
                 </div>
                 <div className="w-full flex justify-center py-4">
-                    <div className="relative group shadow border-2 border-neutral-400 bg-neutral-100 w-[200px] h-[200px] overflow-hidden rounded-full">
-                        <Image src={session?.user?.image} alt="" fill className="object-cover"/>
+                    <div className="relative group shadow border-2 border-black 
+                    bg-neutral-100 w-[200px] h-[200px] overflow-hidden 
+                    rounded-full hover:opacity-80">
+                        <Image 
+                            src={session?.user?.image} 
+                            alt="" 
+                            fill 
+                            className="object-cover"/>
                         <label 
                             onChange={HandleChooseFile} 
                             htmlFor="Uppload-Image" 
-                            className="hover:bg-neutral-700 opacity-0 scale-x-0 group-hover:scale-x-100 group-hover:opacity-100 transition-all duration-200 absolute bottom-4 right-12 z-40 text-sm font-semibold 
-                            flex items-center gap-1 bg-neutral-800 text-white py-1 px-2 rounded cursor-pointer">
+                            className="hover:bg-neutral-700 opacity-0 scale-x-0 
+                            group-hover:scale-x-100 group-hover:opacity-100 
+                            transition-all duration-200 absolute bottom-4 
+                            right-12 z-40 text-sm font-semibold flex items-center 
+                            gap-1 bg-neutral-800 border border-neutral-500 text-white py-1 px-2 rounded 
+                            cursor-pointer">
                         <input 
                             type="file" 
                             id="Uppload-Image" 
@@ -211,8 +188,8 @@ export default function ProfilePage(){
                                 type="text" 
                                 name="firstname" 
                                 id="FirstName"
-                                className="border border-neutral-300 focus:border-blue-600 
-                                focus:text-blue-600 font-semibold rounded outline-none 
+                                className="border border-neutral-300 focus:border-black 
+                                font-semibold rounded outline-none 
                                 py-2 px-3"
                                 />
                         </div>
@@ -230,8 +207,8 @@ export default function ProfilePage(){
                                 type="text" 
                                 name="lastname" 
                                 id="LastName"
-                                className="border border-neutral-300 focus:border-blue-600 
-                                focus:text-blue-600 font-semibold rounded outline-none 
+                                className="border border-neutral-300 focus:border-black 
+                                font-semibold rounded outline-none 
                                 py-2 px-3"
                                 />
                         </div>
@@ -252,8 +229,8 @@ export default function ProfilePage(){
                                 type="email" 
                                 name="email" 
                                 id="EmailAddress"
-                                className="border border-neutral-300 focus:border-blue-600 
-                                focus:text-blue-600 font-semibold rounded outline-none 
+                                className="border border-neutral-300 focus:border-black 
+                                font-semibold rounded outline-none 
                                 py-2 px-3"
                                 />
                         </div>
@@ -271,8 +248,8 @@ export default function ProfilePage(){
                                 type="number" 
                                 name="phonenumber" 
                                 id="PhoneNumber"
-                                className="border border-neutral-300 focus:border-blue-600 
-                                focus:text-blue-600 font-semibold rounded outline-none 
+                                className="border border-neutral-300 focus:border-black 
+                                font-semibold rounded outline-none 
                                 py-2 px-3"
                                 />
                         </div>
@@ -285,8 +262,7 @@ export default function ProfilePage(){
                                 name="country" 
                                 // id="Country"
                                 className='py-2 border border-neutral-300 grow 
-                                focus:text-blue-600
-                                focus:border-blue-600 
+                                                                focus:border-black 
                                 outline-none 
                                 rounded-lg 
                                 px-3'
@@ -307,15 +283,15 @@ export default function ProfilePage(){
                     </button>
                     <button 
                         onClick={Handle_Save_Updates_User_Data} 
-                        className="py-1 px-4 text-xl font-semibold bg-[#1c44f5] 
-                        rounded-lg text-white hover:bg-[#1c44f5e3] cursor-pointer">
+                        className="py-1 px-4 text-xl font-semibold bg-black 
+                        rounded-lg text-white hover:bg-[#000000e3] cursor-pointer">
                             Save
                     </button>
                 </div>
             </section>
             {/* --------- Update Password ---------- */}
-            <section className="-full border overflow-hidden shadow-lg border-neutral-300 rounded-lg bg-white">
-                <div className="w-full bg-blue-100 border-b border-neutral-200 py-2 px-4">
+            <section className="-full border overflow-hidden shadow border-neutral-300 rounded-lg bg-white">
+                <div className="w-full bg-black text-white border-b border-neutral-200 py-2 px-4">
                     <h1 className="text-xl font-semibold">
                         Update Password
                     </h1>
@@ -339,9 +315,9 @@ export default function ProfilePage(){
                             type="password" 
                             name="prevpassword" 
                             id="PrevPassword"
-                            className="border border-neutral-300 focus:border-blue-600 
-                            focus:text-blue-600 font-semibold placeholder-shown:border-
-                            blue-500 rounded outline-none py-2 px-3"
+                            className="border border-neutral-300 focus:border-black 
+                            font-semibold rounded outline-none 
+                            py-2 px-3"
                             />
                     </div>
                         {/* ------- New Password -------  */}
@@ -358,8 +334,8 @@ export default function ProfilePage(){
                             type="password" 
                             name="newpassword" 
                             id="NewPassword"
-                            className="border border-neutral-300 focus:border-blue-600 
-                            focus:text-blue-600 font-semibold rounded outline-none 
+                            className="border border-neutral-300 focus:border-black 
+                            font-semibold rounded outline-none 
                             py-2 px-3"
                             />
                     </div>
@@ -373,17 +349,21 @@ export default function ProfilePage(){
                     </button>
                     <button 
                         onClick={Handle_Save_Update_Password} 
-                        className="py-1 px-4 text-xl font-semibold bg-[#1c44f5] 
-                        rounded-lg text-white hover:bg-[#1c44f5e3] cursor-pointer">
+                        className="py-1 px-4 text-xl font-semibold bg-black 
+                        rounded-lg text-white hover:bg-[#000000e3] cursor-pointer">
                             Update
                     </button>
                 </div>
             </section>
             {PrevImage !== null && (
-                <section className="w-full h-screen flex justify-center items-center absolute right-0 top-0 bg-blue-500/20 ">
-                    <div className="w-[400px] rounded-lg border border-neutral-100 p-2 shadow-lg bg-white">
+                <section className="w-full h-screen flex justify-center items-center absolute right-0 top-0 bg-black/20 ">
+                    <div className="w-[400px] rounded-lg border border-neutral-100 p-2 shadow bg-white">
                         <div className="relative w-full h-[400px] overflow-hidden rounded-lg">
-                            <Image src={PrevImage} alt="" fill className="object-cover"/>
+                            <Image 
+                                src={PrevImage} 
+                                alt="" 
+                                fill 
+                                className="object-cover"/>
                         </div>
                         <div className="py-2 w-full flex gap-2 justify-end">
                             <button onClick={HandleCancelUpploadImage} className="py-1 px-2 rounded text-xl bg-neutral-100 
@@ -392,7 +372,7 @@ export default function ProfilePage(){
                                 disabled={IsLoading}
                                 onClick={HandleSaveUpdate} 
                                 className={`py-1 px-2 rounded text-xl text-white 
-                                font-semibold ${IsLoading ? 'bg-blue-600/60' : 'bg-[#1c44f5] hover:bg-[#1c44f5e3] cursor-pointer'}`}>
+                                font-semibold ${IsLoading ? 'bg-black/60' : 'bg-black hover:bg-[#000000e3] cursor-pointer'}`}>
                                 {IsLoading ? 'Loading...' : 'Update'}
                             </button>
                         </div>

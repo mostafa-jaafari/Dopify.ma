@@ -52,7 +52,7 @@ export default function SideBar() {
                             }}
                             href={`${sidelink.label !== 'photopea editor' ? "/seller/" : "/"}${sidelink.label === 'dashboard' ? '' : sidelink.label.toLowerCase().replace(' ', '')}`}
                             className={`text-nowrap py-2 flex ${IsOpen ? "px-2" : "px-4"}
-                             gap-4 hover:text-blue-700 font-semibold 
+                             gap-4 hover:text-black font-semibold 
                              rounded-lg justify-start items-center capitalize
                             ${ActivePage === sidelink.label ? 'primary-background text-white hover:text-white' : 'text-neutral-700'}`}
                             >

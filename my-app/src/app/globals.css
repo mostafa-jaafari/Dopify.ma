@@ -27,7 +27,7 @@
 }
 .primary-button{
   padding: 8px 20px;
-  background-color: #1c44f5;
+  background-color: #000000;
   color: white;
   text-wrap: nowrap;
   text-transform: capitalize;
@@ -35,10 +35,10 @@
   border-radius: 6px;
 }
 .primary-button:hover{
-  background-color: #1c44f5e3;
+  background-color: #000000e3;
 }
 .primary-background{
-  background-color: #1c44f5;
+  background-color: #000000;
 }
 .primary-button:disabled{
   background-color: #5672ee;
@@ -46,16 +46,16 @@
   animation: Disabled-Btn 4s ease-in-out infinite;
 }
 .primary-color{
-  color: #1c44f5;
+  color: #000000;
 }
 .secondary-color{
   color: #FF9900;
 }
 .para-color{
-  color: #7a7a7a;
+  color: #a1a1a1;
 }
 .para-color-mono{
-  color: #7a7a7a;
+  color: #a1a1a1;
   font-family: monospace;
 }
 body {

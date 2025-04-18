@@ -10,7 +10,7 @@ export default function QuickSetupGuide() {
   return (
     <main className='overflow-hidden rounded-lg bg-white 
     shadow-lg border border-neutral-300 shadow-lg'>
-            <h1 className='p-4 text-xl font-semibold bg-blue-100'>
+            <h1 className='p-4 text-xl text-white font-semibold bg-neutral-900'>
                 Quick Setup Guide
             </h1>
         <ul>

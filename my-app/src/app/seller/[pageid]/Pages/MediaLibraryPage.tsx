@@ -12,10 +12,14 @@ import { useContext, useEffect, useState } from "react";
 import LookingManImage from '../../../../../public/A man looking for something.png';
 
 
-const UploadBTN = ({HandleChooseFile}) => {
+export const UploadBTN = ({HandleChooseFile}) => {
     return (
-        <label htmlFor="Upload-Image" onChange={HandleChooseFile} className="bg-blue-600/10 border border-dashed border-blue-500 rounded-full 
-            px-4 py-2 primary-color font-semibold cursor-pointer hover:bg-blue-600/20 flex items-center gap-2">
+        <label 
+            htmlFor="Upload-Image" 
+            onChange={HandleChooseFile} 
+            className="bg-black/10 border border-dashed border-neutral-700 rounded-full 
+            px-4 py-2 primary-color font-semibold cursor-pointer hover:bg-black/20 
+            flex items-center gap-2">
             <input type="file" name="" id="Upload-Image" className="hidden"/>
             <ImageUp size={20}/> Upload Media
         </label>
