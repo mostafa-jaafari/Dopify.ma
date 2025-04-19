@@ -18,13 +18,29 @@
     --foreground: #000000;
   }
 }
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+/* تنسيق الشريط الكامل */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+
+/* خلفية الشريط */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
 }
+
+/* اللون الأساسي لشريط التمرير */
+::-webkit-scrollbar-thumb {
+  background: #000000;
+  border-radius: 10px;
+}
+
+/* عند تمرير الماوس عليه */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 .primary-button{
   padding: 8px 20px;
   background-color: #000000;
@@ -126,4 +142,35 @@ body {
     border-right: 2px solid transparent; /* Hide the cursor */
   }
 }
+.LoadingButton {
+  position: relative;
+  overflow: hidden;
+}
 
+.LoadingButton::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 40%;
+  height: 120%;
+  background: var(--my-gradient)  
+  /* to right,
+    transparent,
+    #000000,
+    transparent */
+  ;
+  filter: blur(6px);
+  animation: shimmer 1.4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -40%;
+  }
+  100% {
+    left: 100%;
+  }
+}

@@ -339,7 +339,7 @@ export const Test_Products = [
 export const MediaLibraryRenderSection = [
     {
         icon: FileText,
-        label: 'Media',
+        label: 'Templates',
     },{
         icon: ImageUp,
         label: 'Upload',
